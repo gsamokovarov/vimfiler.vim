@@ -262,10 +262,8 @@ function! vimfiler#mappings#define_default_mappings(context) abort "{{{
         \ '<Plug>(vimfiler_clipboard_paste)'
 
   " Execute or change directory.
-  execute s:nowait_nmap() '<Enter>'
-        \ '<Plug>(vimfiler_cd_or_edit)'
   execute s:nowait_nmap() 'o'
-        \ '<Plug>(vimfiler_expand_or_edit)'
+        \ '<Plug>(vimfiler_cd_or_edit)'
   execute s:nowait_nmap() 'l'
         \ '<Plug>(vimfiler_smart_l)'
 
