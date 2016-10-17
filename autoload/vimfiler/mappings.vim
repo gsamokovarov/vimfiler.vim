@@ -156,6 +156,7 @@ function! vimfiler#mappings#define_default_mappings(context) abort "{{{
         \ "\<Plug>(vimfiler_unexpand_tree)" :
         \ "\<Plug>(vimfiler_switch_to_parent_directory)")
   if a:context.explorer
+    nnoremap <buffer><silent> <C-m> ZZ
     nmap <buffer><silent> <Plug>(vimfiler_smart_l)
           \ <Plug>(vimfiler_expand_or_edit)
   else
