@@ -422,8 +422,7 @@ function! vimfiler#init#_start(path, ...) abort "{{{
         let vimfiler = getbufvar(bufnr, 'vimfiler')
         if type(vimfiler) == type({})
               \ && vimfiler.context.buffer_name ==# context.buffer_name
-              \ && (!exists('t:tabpagebuffer')
-              \      || has_key(t:tabpagebuffer, bufnr))
+              \ && (exists('t:vimfiler') && has_key(t:vimfiler, bufnr))
               \ && (!context.invisible || bufwinnr(bufnr) < 0)
           call vimfiler#init#_switch_vimfiler(bufnr, context, path)
           return
@@ -556,12 +555,20 @@ function! s:create_vimfiler_buffer(path, context) abort "{{{
   " Save swapfile option.
   let swapfile_save = &swapfile
 
+  if !exists('t:vimfiler')
+    let t:vimfiler = {}
+  endif
+  " Save alternate buffer.
+  let t:vimfiler[bufnr('%')] = 1
+
   try
     set noswapfile
     let loaded = s:manager.open(bufname, 'silent edit')
   finally
     let &g:swapfile = swapfile_save
   endtry
+
+  let t:vimfiler[bufnr('%')] = 1
 
   if !loaded
     call vimfiler#echo_error(
@@ -597,9 +604,9 @@ function! vimfiler#init#_default_settings() abort "{{{
 
   " Set autocommands.
   augroup vimfiler "{{{
-    autocmd BufEnter,WinEnter,BufWinEnter <buffer>
+    autocmd BufEnter,WinEnter <buffer>
           \ call vimfiler#handler#_event_bufwin_enter(expand('<abuf>'))
-    autocmd BufLeave,WinLeave,BufWinLeave <buffer>
+    autocmd BufLeave,WinLeave <buffer>
           \ call vimfiler#handler#_event_bufwin_leave(expand('<abuf>'))
     autocmd CursorMoved <buffer>
           \ call vimfiler#handler#_event_cursor_moved()
