@@ -329,8 +329,6 @@ function! vimfiler#mappings#define_default_mappings(context) abort "{{{
         \ '<Plug>(vimfiler_help)'
   execute s:nowait_nmap() 'v'
         \ '<Plug>(vimfiler_preview_file)'
-  execute s:nowait_nmap() 'O'
-        \ '<Plug>(vimfiler_sync_with_current_vimfiler)'
   execute s:nowait_nmap() 'go'
         \ '<Plug>(vimfiler_open_file_in_another_vimfiler)'
   execute s:nowait_nmap() '<C-g>'
